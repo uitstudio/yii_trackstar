@@ -27,6 +27,9 @@ class Issue extends CActiveRecord
   const TYPE_BUG=0;
 	const TYPE_FEATURE=1;
 	const TYPE_TASK=2;
+  const STATUS_NOT_STARTED=0;
+	const STATUS_STARTED=1;
+	const STATUS_FINISHED=2;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -45,6 +48,8 @@ class Issue extends CActiveRecord
 		return array(
 			array('name', 'required'),
 			array('project_id, type_id, status_id, owner_id, requester_id, create_user_id, update_user_id', 'numerical', 'integerOnly'=>true),
+      array('type_id', 'in', 'range'=>self::getAllowedTypeRange()),
+      array('status_id', 'in', 'range'=>self::getAllowedStatusRange()),
 			array('name', 'length', 'max'=>255),
 			array('description, create_time, update_time', 'safe'),
 			// The following rule is used by search().
@@ -145,6 +150,35 @@ class Issue extends CActiveRecord
 			self::TYPE_BUG=>'Bug',
 			self::TYPE_FEATURE=>'Feature',
 			self::TYPE_TASK=>'Task',
+		);
+	}
+  public static function getAllowedTypeRange()
+	{
+		return array(
+			self::TYPE_BUG,
+			self::TYPE_FEATURE,
+			self::TYPE_TASK,
+		);
+	}
+  
+  /**
+	 * Retrieves a list of issue statuses
+	 * @return Array an array of available issue statuses.
+	 */
+	public function getStatusOptions()
+	{
+		return array(
+			self::STATUS_NOT_STARTED=>'Not Yet Started',
+			self::STATUS_STARTED=>'Started',
+			self::STATUS_FINISHED=>'Finished',
+		);
+	}
+  public function getAllowedStatusRange()
+	{
+		return array(
+			self::STATUS_NOT_STARTED,
+			self::STATUS_STARTED,
+			self::STATUS_FINISHED,
 		);
 	}
 }
