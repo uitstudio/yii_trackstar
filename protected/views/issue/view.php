@@ -33,8 +33,14 @@ $this->widget('zii.widgets.CDetailView', array(
       'name' => 'status_id',
       'value' => CHtml::encode($model->getStatusText())
     ),
-    'owner_id',
-    'requester_id',
+    array(
+      'name' => 'owner_id',
+      'value' => isset($model->owner) ? CHtml::encode($model->owner->username) : "unknown"
+    ),
+    array(
+      'name' => 'requester_id',
+      'value' => isset($model->requester) ? CHtml::encode($model->requester->username) : "unknown"
+    ),
   ),
 ));
 ?>
