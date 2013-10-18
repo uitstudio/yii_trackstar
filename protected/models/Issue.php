@@ -24,6 +24,9 @@
  */
 class Issue extends CActiveRecord
 {
+  const TYPE_BUG=0;
+	const TYPE_FEATURE=1;
+	const TYPE_TASK=2;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -130,5 +133,18 @@ class Issue extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+  
+  /**
+	 * Retrieves a list of issue types
+	 * @return Array an array of available issue types.
+	 */
+	public function getTypeOptions()
+	{
+		return array(
+			self::TYPE_BUG=>'Bug',
+			self::TYPE_FEATURE=>'Feature',
+			self::TYPE_TASK=>'Task',
+		);
 	}
 }
