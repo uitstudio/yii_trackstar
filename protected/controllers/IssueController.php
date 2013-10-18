@@ -170,4 +170,14 @@ class IssueController extends Controller
 			Yii::app()->end();
 		}
 	}
+  
+  /**
+	 * In-class defined filter method, configured for use in the above filters() method
+	 * It is called before the actionCreate() action method is run in order to ensure a proper project context
+	 */
+	public function filterProjectContext($filterChain)
+	{
+		//complete the running of other filters and execute the requested action
+		$filterChain->run();
+	}
 }
