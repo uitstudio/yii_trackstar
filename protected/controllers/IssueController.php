@@ -2,6 +2,11 @@
 
 class IssueController extends Controller
 {
+  /**
+	 * @var private property containing the associated Project model instance.
+	 */
+	private $_project = null;
+  
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -178,7 +183,31 @@ class IssueController extends Controller
 	 */
 	public function filterProjectContext($filterChain)
 	{
+    //set the project identifier based on either the GET input 
+	    //request variables   
+		if(isset($_GET['pid']))
+			$this->loadProject($_GET['pid']);   
+		else
+			throw new CHttpException(403,'Must specify a project before performing this action.');
+    
 		//complete the running of other filters and execute the requested action
 		$filterChain->run();
+	}
+  /**
+	 * Protected method to load the associated Project model class
+	 * @param integer projectId the primary identifier of the associated Project
+	 * @return object the Project data model based on the primary key 
+	 */
+	protected function loadProject($projectId)	 
+	{
+		//if the project property is null, create it based on input id
+		if($this->_project===null){
+			$this->_project=Project::model()->findByPk($projectId);
+			if($this->_project===null){
+        throw new CHttpException(404,'The requested project does not exist.'); 
+			}
+		}
+
+		return $this->_project; 
 	}
 }
