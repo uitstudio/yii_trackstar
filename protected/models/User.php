@@ -125,4 +125,24 @@ class User extends TrackStarActiveRecord
 	{
 		return parent::model($className);
 	}
+  
+  /**
+	 * apply a hash on the password before we store it in the database
+	 */
+	protected function afterValidate()
+	{   
+		parent::afterValidate();
+		//ensure we don't have any other errors
+		if(!$this->hasErrors())
+			$this->password = $this->hashPassword($this->password);                     
+	}
+  /**
+	 * Generates the password hash.
+	 * @param string password
+	 * @return string hash
+	 */
+	public function hashPassword($password)
+	{
+		return md5($password);
+	}
 }
