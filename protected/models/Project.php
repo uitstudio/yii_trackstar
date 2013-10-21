@@ -119,4 +119,44 @@ class Project extends TrackStarActiveRecord
 		$usersArray = CHtml::listData($this->users, 'id', 'username');	
 		return $usersArray;
 	}
+  
+  /**
+	 * Assigns a user, in a specific role, to the project
+	 * @param int $userId the primary key for the user
+	 * @param string $role the role assigned to the user for the project  	
+	 */
+	public function assignUser($userId, $role)
+	{
+		$command = Yii::app()->db->createCommand();
+		$command->insert('tbl_project_user_assignment', array(
+      'role'=>$role,
+      'user_id'=>$userId,
+      'project_id'=>$this->id,
+		));
+	}
+  
+  /**
+	 * Removes a user from being associated with the project
+	 * @param int $userId the primary key for the user
+	 */
+	public function removeUser($userId)
+	{
+		$command = Yii::app()->db->createCommand();
+		$command->delete('tbl_project_user_assignment', 'user_id=:userId AND project_id=:projectId', array(':userId'=>$userId,':projectId'=>$this->id));
+	}
+  
+  /**
+	 * Determines whether or not the current application user is in the role for the project
+	 * @param string $role the role assigned to the user for the project 
+	 * @return boolean whether or not the user is in the role for this project 	
+	 */
+	public function allowCurrentUser($role)
+	{
+		$sql = "SELECT * FROM tbl_project_user_assignment WHERE project_id=:projectId AND user_id=:userId AND role=:role";
+		$command = Yii::app()->db->createCommand($sql);
+		$command->bindValue(":projectId", $this->id, PDO::PARAM_INT);
+		$command->bindValue(":userId", Yii::app()->user->getId(), PDO::PARAM_INT);
+		$command->bindValue(":role", $role, PDO::PARAM_STR);
+		return $command->execute()==1 ? true : false;
+	}
 }
