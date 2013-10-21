@@ -174,6 +174,7 @@ class ProjectController extends Controller
 	public function actionAdduser($id)
 	{
 		$project = $this->loadModel($id);
+    //check
 		if(!Yii::app()->user->checkAccess('createUser', array('project'=>$project)))
 		{
 			throw new CHttpException(403,'You are not authorized to perform this action.');
