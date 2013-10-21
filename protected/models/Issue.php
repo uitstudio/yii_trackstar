@@ -201,4 +201,13 @@ class Issue extends TrackStarActiveRecord
 		$statusOptions=$this->statusOptions;
 		return isset($statusOptions[$this->status_id]) ? $statusOptions[$this->status_id] : "unknown status ({$this->status_id})";
 	}
+  
+  /**
+	  * Adds a comment to this issue
+	  */
+	public function addComment($comment)
+	{
+		$comment->issue_id=$this->id;
+		return $comment->save();
+	}
 }
