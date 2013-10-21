@@ -55,8 +55,19 @@ class ProjectController extends Controller
 		if(isset($_POST['Project']))
 		{
 			$model->attributes=$_POST['Project'];
-			if($model->save())
+			if($model->save()){
+        //assign the user creating the new project as an owner of the project, 
+				//so they have access to all project features
+				$form=new ProjectUserForm;
+				$form->username = Yii::app()->user->name;
+				$form->project = $model;
+				$form->role = 'owner';
+				if($form->validate())
+				{
+					$form->assign();
+				}
 				$this->redirect(array('view','id'=>$model->id));
+      }
 		}
 
 		$this->render('create',array(
