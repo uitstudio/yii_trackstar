@@ -45,11 +45,13 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
+        '<pid:\d+>/commentfeed'=>array('comment/feed', 'urlSuffix'=>'.xml', 'caseSensitive'=>false),
         'commentfeed'=>array('comment/feed','urlSuffix'=>'.xml','caseSensitive'=>false),
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
+      'showScriptName'=>false,
 		),
     /*
 		'db'=>array(
