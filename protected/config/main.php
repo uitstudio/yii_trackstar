@@ -9,6 +9,7 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'TrackStar',
   'id'=>'TrackStar',
+  'homeUrl'=>'/project',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
