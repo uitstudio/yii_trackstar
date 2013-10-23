@@ -16,6 +16,11 @@ class ProjectController extends Controller
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			'postOnly + delete', // we only allow deletion via POST request
+      array(
+        'COutputCache + view', //cache the entire output from the actionView() method for 2 minutes
+        'duration' => 120,
+        'varyByParam' => array('id'),
+      ),
 		);
 	}
 
