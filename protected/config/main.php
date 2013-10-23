@@ -11,7 +11,7 @@ return array(
   'id'=>'TrackStar',
   'homeUrl'=>'/project',
   'theme'=>'newtheme',
-  'language'=>'rev',
+  //'language'=>'rev',
 
 	// preloading 'log' component
 	'preload'=>array('log'),

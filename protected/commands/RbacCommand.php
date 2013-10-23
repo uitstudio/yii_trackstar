@@ -24,6 +24,7 @@ class RbacCommand extends CConsoleCommand {
     //provide the oportunity for the use to abort the request
     $message = "This command will create three roles: Owner, Member, and Reader\n";
     $message .= " and the following permissions:\n";
+    $message .= "full administrative management access\n";
     $message .= "create, read, update and delete user\n";
     $message .= "create, read, update and delete project\n";
     $message .= "create, read, update and delete issue\n";
@@ -93,6 +94,16 @@ class RbacCommand extends CConsoleCommand {
       $role->addChild("updateProject");
       $role->addChild("deleteProject");
 
+      //create a general task-level permission for admins
+			$this->_authManager->createTask("adminManagement", "access to the application administration functionality");
+      //create the site admin role, and add the appropriate permissions	 
+			$role=$this->_authManager->createRole("admin"); 
+			$role->addChild("owner");
+			$role->addChild("reader"); 
+			$role->addChild("member");
+			$role->addChild("adminManagement");
+			//ensure we have one admin in the system (force it to be user id #1)
+			$this->_authManager->assign("admin",1);
       //provide a message indicating success
       echo "Authorization hierarchy successfully generated.\n";
     }
