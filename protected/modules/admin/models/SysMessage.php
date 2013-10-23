@@ -129,7 +129,8 @@ class SysMessage extends TrackStarActiveRecord
     if ($sysMessage != null) {
       //a valid message was found. Store it in cache for future retrievals
       if (isset($key))
-        $cache->set($key,$sysMessage,300);
+        //$cache->set($key,$sysMessage,300);
+        $cache->set($key, $sysMessage, 0, new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_sys_message'));
       return $sysMessage;
     }
     else
