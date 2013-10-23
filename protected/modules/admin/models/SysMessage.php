@@ -15,7 +15,7 @@
  * @property User $updateUser
  * @property User $createUser
  */
-class SysMessage extends CActiveRecord
+class SysMessage extends TrackStarActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -34,8 +34,6 @@ class SysMessage extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('message', 'required'),
-			array('create_user_id, update_user_id', 'numerical', 'integerOnly'=>true),
-			array('create_time, update_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, message, create_time, create_user_id, update_time, update_user_id', 'safe', 'on'=>'search'),
